@@ -3,18 +3,17 @@ private int smallestBranch = 10;
 private double branchAngle = .2;  
 public void setup() 
 {   
-	size(640,480);    
+	size(1280,480);    
 	noLoop(); 
 } 
 public void draw() 
 {   
-	background(0);   
-	stroke(0,255,0);
-	strokeWeight(10);   
-	line(320,480,320,380);   
-	drawBranches(320, 380, 100, 3*Math.PI/2);  //will add later 
+	background(229, 247, 255); 
+	for (int i = 128; i < width; i += 256) {
+		drawTree(i, 480, color(0, (int)(Math.random() * 100) + 100, 0));
+	}
 } 
-public void drawBranches(double x, double y, double branchLength, double angle) 
+public void drawBranches(double x, double y, double branchLength, double angle, color c) 
 {   
 	if (branchLength < smallestBranch)
 		return;
@@ -41,14 +40,16 @@ public void drawBranches(double x, double y, double branchLength, double angle)
 		endPoints.add(tempArray);
 	}
 	for (double[] temp : endPoints) {
+		stroke(c);
 		strokeWeight((float)branchLength / 10);
 		line((float)x, (float)y, (float)temp[0], (float)temp[1]);
-		drawBranches(temp[0], temp[1], temp[2], temp[3]);
+		drawBranches(temp[0], temp[1], temp[2], temp[3], c);
 	}
 } 
 public void drawTree(int x, int y, color c){
 	stroke(c);
 	strokeWeight(10); 
-	line(320,480,320,380);   
-	drawBranches(320, 380, 100, 3*Math.PI/2);
+	int randomTrunkHeight = (int)(Math.random() * 51) + 50;
+	line(x, y, x, y - randomTrunkHeight);   
+	drawBranches(x, y - randomTrunkHeight, 100, 3*Math.PI/2, c);
 }
